@@ -20,7 +20,13 @@ class Dynamic extends StatefulWidget {
 }
 
 class _DynamicState extends State<Dynamic> {
-  final List<String> _items = ['item 1', 'item 2', 'itme 3', 'item 4', 'item 5'];
+  final List<String> _items = [
+    'item 1',
+    'item 2',
+    'itme 3',
+    'item 4',
+    'item 5'
+  ];
   final List<String> _cartItems = [];
 
   void addItemToCart(String item) {
@@ -85,12 +91,36 @@ class _DynamicState extends State<Dynamic> {
 
               return ListTile(
                 title: Text(item),
-                trailing: isInCart  ? Icon(Icons.check_circle , color:Colors.green)
-                                    : IconButton(icon:Icon(Icons.add_circle)  , 
-                                    onPressed:() => addItemToCart(item)),
+                trailing: isInCart
+                    ? Icon(Icons.check_circle, color: Colors.green)
+                    : IconButton(
+                        icon: Icon(Icons.add_circle),
+                        onPressed: () => addItemToCart(item)),
               );
+            }),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            showDialog(
+                context: context,
+                builder: (context) {
+                  return AlertDialog(
+                    title: Text('Cart Content'),
+                    content: _cartItems.isEmpty
+                        ? Text('The Cart is empty')
+                        : Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: _cartItems.map((item) => Text(item)).toList(),
+                        ),
+
+                        actions: [
+                          TextButton(onPressed: () =>  Navigator.pop(context), child: Text('Close'))
+                        ],
 
 
-            }));
+                  );
+                });
+          },
+          child: Icon(Icons.shopping_cart),
+        ));
   }
 }
